@@ -1,0 +1,28 @@
+@use'base/variables' as v;
+@use'base/mixins' as m;
+//@use '../base/variables' as v;
+
+//con estos se divide en 2 pa pag principal 
+.cont-app {
+    @include m.tablet{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        min-height: 100vh;
+    }
+//es para la img
+
+    .img{
+        height: 20rem;
+        background-image: url(../img/cita-medico.jpg);
+        background-size: cover;
+        background-position: center center;
+        @include m.tablet{
+            height: auto;
+        }
+    .app{
+        width: 95%;
+        margin: 0 auto;
+        padding: 3rem 0;
+    }
+    }
+}
