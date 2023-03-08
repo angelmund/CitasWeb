@@ -33,10 +33,10 @@ class Email {
 
         $mail->setFrom('micita@citas.com');  
         $mail->addAddress('micita@citas', 'appcitas.com'); //es el nombre del dominio
-        $mail->Subject = 'Confria tu cuenta';
+        $mail->Subject = 'Confirma tu cuenta';
 
         //Set HTML
-        $mail->isHTML(TRUE);
+        $mail->isHTML(true);
         $mail->CharSet= 'UTF-8';
 
         $contenido = "<html>";
@@ -48,5 +48,8 @@ class Email {
         $contenido .= "</html>";
 
         $mail->Body = $contenido;
+
+        //Enviar el mail
+        $mail->send();
     }
 }

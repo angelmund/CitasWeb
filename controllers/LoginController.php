@@ -55,7 +55,7 @@ class LoginController {
                     //Enviar el email
                     $email = new Email($usuario->nombre,$usuario
                         ->email,$usuario->token);
-                    $email = new enviarConfirmacion();
+                    $email-> enviarConfirmacion();
                 }
             }
 
