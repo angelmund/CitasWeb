@@ -32,7 +32,7 @@ class Email {
 
 
         $mail->setFrom('micita@citas.com');  
-        $mail->addAddress('micita@citas', 'appcitas.com'); //es el nombre del dominio
+        $mail->addAddress('micita@citas.com', 'appcitas.com'); //es el nombre del dominio
         $mail->Subject = 'Confirma tu cuenta';
 
         //Set HTML
@@ -40,7 +40,7 @@ class Email {
         $mail->CharSet= 'UTF-8';
 
         $contenido = "<html>";
-        $contenido .= "<p><strong>".$this->nombre. "</strong>Has creado tu cuenta en MiCita, solo debes 
+        $contenido .= "<p><strong>".$this->nombre. "</strong> Has creado tu cuenta en MiCita, solo debes 
         confrimarla presionando el siguiente enlace</p>";
         $contenido .= "<p>Presiona aquí: <a href= 'http://localhost:3000/confirmar_cuenta?token=".$this->token. "'> Confirmar Cuenta </a> </p>";
         $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes 
