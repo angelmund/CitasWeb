@@ -9,14 +9,64 @@ use MVC\Router;
 
 class LoginController {
     public static function Login(Router $router){
-        $router->render('auth/login');
+        $alertas =[];
+        //para autocomplete
+        //$auth = new Usuario();
+
+        if($_SERVER['REQUEST_METHOD'] =='POST'){
+            $auth= new Usuario($_POST);
+
+            //hace que se muestre en la vista 
+            $alertas =  $auth->validarLogin();
+            if(empty($alertas)){
+               //comprobar que exista el usurio
+               $usuario = Usuario::where('email', $auth->email); 
+
+               if($usuario){
+                //verificar el password
+                //mando a llamar el mtodo del modelo usuario
+                if($usuario->comporbarPasswordAndVerificado($auth->password)) {
+                    //autenticar el usuario
+                    session_start();
+
+                    $_SESSION['id'] = $usuario->id;
+                    $_SESSION['nombre'] =$usuario->nombre. " ". $usuario->apPaterno. " ". $usuario->apMaterno;
+                    $_SESSION['email'] = $usuario->email;
+                    $_SESSION['login'] =true;
+
+                    //redirecionamiento
+                    if($usuario->admin === "1"){
+                        $_SESSION['admin'] = $usuario->admin ?? null;
+                        
+                        header('Locatin: /admin');
+                    }else{
+                        header('Locatin: /cita');
+                    }
+                }
+               }else{
+                Usuario::setAlerta('error', 'Usuario no encontrado');
+               }
+
+            }
+        }
+        $alertas = Usuario::getAlertas();
+
+        $router->render('auth/login', ['alertas'=> $alertas]); 
+        //'auth'=> $auth es para autocompletar los campos
     }
     public static function Logout(){
         echo "Desde Logout";
     }
     public static function olvide_password(Router $router){
-        $router->render('auth/olvide_password', [
+        $alertas =[];
 
+        if($_SERVER['REQUEST_METHOD']==='POST'){
+            $auth= new Usuario($_POST);
+            $alertas=$auth->validarEmail();
+        }
+
+        $router->render('auth/olvide_password', [
+            '$alertas'=>$alertas
         ]);
     }
     public static function recuperar(Router $router){
@@ -75,5 +125,31 @@ class LoginController {
     }
     public static function mensaje(Router $router){
         $router->render('auth/mensaje');
+    }
+    public static function confirmar(Router $router){
+        $alertas =[];
+
+        $token = s($_GET['token']);
+
+        $usuario = Usuario::where('token', $token);
+        
+        if($usuario){
+            //mostra mensaje de error
+            $usuario::setAlerta('error', 'Token no válido');
+        }else{
+            //modificar a usuario confirmado
+            $usuario->confirmado = 1;
+            $usuario->token =null;
+            $usuario->guardar();
+            $usuario::setAlerta('exito', 'Cuenta Comprobada Correctamente');
+        }
+        
+        //Obtener alertas 
+        $alertas =Usuario::getAlertas();
+
+        //renderizar la vista 
+        $router->render('auth/confirmar-cuenta', [
+            'alertas'=> $alertas
+        ]);
     }
 }

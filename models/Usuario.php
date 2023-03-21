@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Classes\Email;
 
 class Usuario extends ActiveRecord{
     //base de datos
@@ -61,6 +62,28 @@ class Usuario extends ActiveRecord{
         }
         return self::$alertas;
     }
+
+    public function validarLogin(){
+        //valida el correo
+        if(!$this->email){
+            self::$alertas['error'][] ='El email es Obligatorio';
+        }
+        //valida el password
+        if(!$this->password){
+            self::$alertas['error'][] ='El password es Obligatorio';
+        }
+
+        return self::$alertas;
+    }
+
+    //validar email
+    public function validarEmail(){
+           //valida el correo
+        if(!$this->email){
+            self::$alertas['error'][] ='El email es Obligatorio';
+        }
+        return self::$alertas;
+    }
     //Verifica que no esté registardo
     public function existeUsuario(){
         //se leen los datos que pone el usuario
@@ -83,6 +106,16 @@ class Usuario extends ActiveRecord{
     public function crearToken(){
         //uniqid sirve para generar un a cadena para token
         $this->token = uniqid();
+    }
+
+    public function comporbarPasswordAndVerificado($password){
+        $resultado = password_verify($password, $this->password);
+
+        if(!$resultado || !$this->confirmado){
+            self::$alertas['error'][] = 'Password Incorrecto o la cuenta no existe';
+        }else{
+
+        }
     }
 }
 
