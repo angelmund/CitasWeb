@@ -1,5 +1,6 @@
-<?php 
+<?php
 
+use Controllers\CitaController;
 use Controllers\LoginController;
 
 require_once __DIR__ . '/../includes/app.php';
@@ -31,6 +32,8 @@ $router->get('/confirmar_cuenta',[LoginController::class, 'confirmar']);
 
 $router->get('/mensaje',[LoginController::class, 'mensaje']); 
 
+//REA PRIVADA 
+$router->get('/cita',[CitaController::class, 'index']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();

@@ -2,8 +2,8 @@
 <p class="descripcion-pagina">Restablece tu password ingresando tu email</p>
 
 <!-- hace que se llamen las alertas -->
-<?php 
- include_once __DIR__."/../templates/alertas.php";
+<?php
+    include_once __DIR__ . "/../templates/alertas.php"
 ?>
 <!-- aqu[i termina lo que llama las alertas -->
 

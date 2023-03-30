@@ -63,10 +63,20 @@ class LoginController {
         if($_SERVER['REQUEST_METHOD']==='POST'){
             $auth= new Usuario($_POST);
             $alertas=$auth->validarEmail();
+            if(empty($alertas)){
+                $usuario = Usuario::where('email', $auth->email);
+                
+                if($usuario && $usuario->confirmado == "1"){
+                    debuguear('Si existe y esta cofrimado');
+                }else{
+                    Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
+                    $alertas = Usuario::getAlertas();
+                }
+            }
         }
 
         $router->render('auth/olvide_password', [
-            '$alertas'=>$alertas
+            'alertas'=>$alertas
         ]);
     }
     public static function recuperar(Router $router){
