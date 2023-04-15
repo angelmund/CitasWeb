@@ -84,6 +84,19 @@ class Usuario extends ActiveRecord{
         }
         return self::$alertas;
     }
+
+    //Valida el passsword cuando se intenta recuperar la cuenta 
+    public function validarPassword(){
+        if(!$this->password){
+            self::$alertas['error'][] = 'El Password es obligatorio'; //si el password es vacio
+        }
+        if(strlen($this->password) < 6){
+            self::$alertas['error'] [] = 'El Password debe tener al menos 6 
+            caracteres'; //debe de tener 6 caracteres como minimo
+        }
+        return self::$alertas; //retorna las alertas 
+    }
+
     //Verifica que no esté registardo
     public function existeUsuario(){
         //se leen los datos que pone el usuario

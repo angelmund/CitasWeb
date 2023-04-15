@@ -66,21 +66,72 @@ class LoginController {
             if(empty($alertas)){
                 $usuario = Usuario::where('email', $auth->email);
                 
-                if($usuario && $usuario->confirmado == "1"){
-                    debuguear('Si existe y esta cofrimado');
+                if($usuario && $usuario->confirmado === "1"){
+                    
+                    //Generar un Token
+                    $usuario->crearToken();
+                    $usuario->guardar();
+                    //debuguear($usuario);
+
+                    //Enviar email
+                    $email = new Email($usuario->email, $usuario ->nombre, $usuario->token);
+                    $email ->enviarInstruciones();
+
+                    //Alerta de exito
+                    Usuario::setAlerta('exito','Revisa tu email');
+                   
                 }else{
                     Usuario::setAlerta('error', 'El usuario no existe o no está confirmado');
-                    $alertas = Usuario::getAlertas();
+                    
                 }
             }
         }
+
+        $alertas = Usuario::getAlertas();
 
         $router->render('auth/olvide_password', [
             'alertas'=>$alertas
         ]);
     }
     public static function recuperar(Router $router){
-        $router->render('auth/olvide_password', [
+        $alertas = [];
+        $error = false;
+
+        $token = s($_GET['token']); //se sanitaza con la funcion s
+        //buscar usuario por su token 
+        $usuario = Usuario::where('token', $token);
+        //en caso de que no encuentre ese token, hace el siguiente if
+        if(empty($usuario)){
+            Usuario::setAlerta('error', 'Token no Válido');
+            $error = true;
+        }
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            //Lee el nuevo password y lo guarda
+            $password = new Usuario($_POST);
+            $password = $password->validarPassword();//instancia y llama el metodo validar password
+            
+            //si el arreglo de alertas esta vacio, entonces se jashea el password
+            if(empty($alertas)){
+                $usuario->password = null; //elimana el password anterior
+                
+                $usuario->password = $password->password;
+                $usuario->hashPassword();
+                $usuario->token = null;
+
+                $resultado = $usuario->guardar();
+                if($resultado){
+                    header('Location: /');
+                }
+                
+            }
+        }
+
+        //debuguear($usuario);
+        $alertas = Usuario::getAlertas(); //aqui termina si no encuentra el token en algun usuario existente
+        $router->render('auth/recuperar-password', [
+            'alertas'=> $alertas,
+            'error' => $error
 
         ]);
     }

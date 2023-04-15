@@ -40,9 +40,43 @@ class Email {
         $mail->CharSet= 'UTF-8';
 
         $contenido = "<html>";
-        $contenido .= "<p><strong>".$this->nombre. "</strong> Has creado tu cuenta en MiCita, solo debes 
+        $contenido .= "<p><strong>".$this->email. "</strong> Has creado tu cuenta en MiCita, solo debes 
         confrimarla presionando el siguiente enlace</p>";
         $contenido .= "<p>Presiona aquí: <a href= 'http://localhost:3000/confirmar_cuenta?token=".$this->token. "'> Confirmar Cuenta </a> </p>";
+        $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes 
+        ignorar este mensaje</p>";
+        $contenido .= "</html>";
+
+        $mail->Body = $contenido;
+
+        //Enviar el mail
+        $mail->send();
+    }
+
+    public function enviarInstruciones(){
+        //Craer el objeto de email
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->SMTPAuth = true;
+        $mail->Port = 2525;
+        $mail->Username = 'b92da411238302';
+        $mail->Password = '7902ce9c006f88';
+
+
+        $mail->setFrom('micita@citas.com');  
+        $mail->addAddress('micita@citas.com', 'appcitas.com'); //es el nombre del dominio
+        $mail->Subject = 'Restablece su password';
+
+        //Set HTML
+        $mail->isHTML(true);
+        $mail->CharSet= 'UTF-8';
+
+        $contenido = "<html>";
+        $contenido .= "<p><strong>Hola ".$this->nombre. "</strong> Has solitacitado restablecer tu
+        password, sigue el siguiente enlace para hacerlo </p>";
+        $contenido .= "<p>Presiona aquí: <a href= 'http://localhost:3000/recuperar?token=".
+        $this->token. "'> Restablecer Password </a> </p>";
         $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes 
         ignorar este mensaje</p>";
         $contenido .= "</html>";
