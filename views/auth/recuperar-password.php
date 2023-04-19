@@ -1,19 +1,19 @@
+<h1 class="nombre-pagina">Recuperar Password</h1>
+<p class="descripcion-pagina">Coloca tu nuevo Password a continuaci&oacute;n</p>
+
 <!-- hace que se llamen las alertas -->
 <?php
     include_once __DIR__ . "/../templates/alertas.php"
 ?>
+
 <!-- aqu[i termina lo que llama las alertas -->
 
-<?php 
-    if($error) return null; //es para ocultar el formulario en caso de que el token no sea v[a]lido
+<?php if($error) return; ?><!--es para ocultar el formulario en caso de que el token no sea v[a]lido
     //si no encuentra un usuario con ese token  
-?>
-
-<h1 class="nombre-pagina">Recuperar Password</h1>
-<p class="descripcion-pagina">Coloca tu nuevo Password a continuaci&oacute;n</p>
-
+-->
 <form class="formulario" method="post">
     <div class="campo">
+        <label for="password">Pasword</label>
         <input 
             type="password"
             id="password"

@@ -99,17 +99,17 @@ class LoginController {
 
         $token = s($_GET['token']); //se sanitaza con la funcion s
         //buscar usuario por su token 
-        $usuario = Usuario::where('token', $token);
+        $usuario = Usuario::where('token', $token);//busca la info del usuaario en la BD
         //en caso de que no encuentre ese token, hace el siguiente if
         if(empty($usuario)){
             Usuario::setAlerta('error', 'Token no Válido');
-            $error = true;
+            $error = true; //hace que desaparezca del formulario 
         }
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             //Lee el nuevo password y lo guarda
             $password = new Usuario($_POST);
-            $password = $password->validarPassword();//instancia y llama el metodo validar password
+            $alertas = $password->validarPassword();//instancia y llama el metodo validar password
             
             //si el arreglo de alertas esta vacio, entonces se jashea el password
             if(empty($alertas)){

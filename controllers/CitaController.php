@@ -14,4 +14,4 @@ class CitaController{
             'nombre' => $_SESSION['nombre']
         ]);
     }
-}
+}//
