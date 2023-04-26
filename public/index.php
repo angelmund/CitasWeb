@@ -32,7 +32,7 @@ $router->get('/confirmar_cuenta',[LoginController::class, 'confirmar']);
 
 $router->get('/mensaje',[LoginController::class, 'mensaje']); 
 
-//REA PRIVADA 
+//AREA PRIVADA 
 $router->get('/cita',[CitaController::class, 'index']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador

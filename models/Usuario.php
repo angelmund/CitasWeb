@@ -127,7 +127,7 @@ class Usuario extends ActiveRecord{
         if(!$resultado || !$this->confirmado){
             self::$alertas['error'][] = 'Password Incorrecto o la cuenta no existe';
         }else{
-
+            return true; //retona la vista de admin 
         }
     }
 }
