@@ -7,6 +7,8 @@
     }
 
     button{ /*Estilos de los botones de el area priv para el usuario*/
+       
+        margin: 1.2rem 1rem;
         background-color: v.$azul;
         border: none;
         color: v.$blanco;
@@ -16,5 +18,15 @@
         margin-bottom: 1rem;
         text-transform: uppercase;
         font-weight: v.$bold;
+        transition: background-color 300ms ease;
+
+        &:hover{
+            cursor: pointer;
+            background-color: darken(v.$azul, 10%); /*Hace que se vea un sombreado color negro en los "btones"*/
+        }
+        &.actual{
+            background-color: v.$gris;
+            color: v.$azul;
+        }
     }
 }

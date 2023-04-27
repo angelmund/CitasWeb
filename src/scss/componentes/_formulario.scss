@@ -21,7 +21,7 @@
 
          &:disabled{
             background-color: lighten(v.$negro, 30%);
-            color: v.$blanco;
+            color: v.$oscuro;
             cursor: not-allowed;
          }
     }
