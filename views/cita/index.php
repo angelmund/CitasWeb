@@ -56,14 +56,14 @@
                 id="anterior"
                 class="boton"
             >&laquo; Anterior</button>
-        </div>
 
-        <div class="paginacion">
             <button
                 id="siguiente"
                 class="boton"
                 
             > Siguiente &raquo;</button>
         </div>
+
+        
 </div>
 
