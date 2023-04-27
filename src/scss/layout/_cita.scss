@@ -1,13 +1,15 @@
-
-.seccion{
+.seccion {
     padding: 5rem 0;
-
-    .text-center{
+    display: none;
+    
+    .text-center {
         text-align: center;
     }
-
-    &:nth-child(3),
-    &:nth-child(4){
-        display: none; /*Para que se oculten */
-    }
+}
+.mostrar {
+    display: block;
+}
+ 
+.ocultar {
+    display: none;
 }
