@@ -6,10 +6,12 @@
         text-align: center;
     }
 }
+/*Muestra el contendio oculto, js hace que se muestre */
 .mostrar {
     display: block;
 }
- 
+/*Oculta el contendio y hasta que se de un 
+click a alg+un votón se muestra el resto*/ 
 .ocultar {
     display: none;
 }
