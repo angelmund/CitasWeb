@@ -1,3 +1,4 @@
+
 .seccion {
     padding: 5rem 0;
     display: none;
@@ -11,7 +12,24 @@
     display: block;
 }
 /*Oculta el contendio y hasta que se de un 
-click a alg+un votón se muestra el resto*/ 
+click a alg+un votón se muestra el resto*/
 .ocultar {
     display: none;
 }
+/*
+.seccion {
+    padding: 5rem 0;
+    display: none;
+    
+    .text-center {
+        text-align: center;
+    }
+}
+.mostrar {
+    display: block;
+}
+ 
+.ocultar {
+    display: none;
+}
+*/

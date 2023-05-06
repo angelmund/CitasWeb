@@ -6,10 +6,13 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function iniciarApp(){
     tabs(); //cambia la secci[on] cuando se presiona el tabs
+    
 }
 //hace que se muestre una seccion al dar click en el buttton
 function mostrarSeccion(){
-    const seccion = document.querySelector('#paso-${paso}');
+    //selecciona la seccion con el paso
+    const pasoSelector = '#paso-${paso}';
+    const seccion = document.querySelector(pasoSelector);
     seccion.classList.add('mostrar');
 }
 
@@ -20,8 +23,8 @@ function tabs(){
     botones.forEach( boton =>{
         boton.addEventListener('click', function(e){
             paso = parseInt(e.target.dataset.paso); //identifica en que paso est[a]
-
             mostrarSeccion();
+            
         });
     })
 }
