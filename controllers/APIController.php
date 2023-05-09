@@ -1,9 +1,12 @@
 <?php
 namespace Controllers;
 
+use Model\Servicio;
+
 class APIController{
     public static function index(){
-        echo "Desde api/index";
+        $servicios = Servicio::all();
+        
     }
 }
 
