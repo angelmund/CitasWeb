@@ -10,6 +10,7 @@
     display: flex;
     margin: 2rem ;
     align-items: center;
+    cursor:pointer;
     label{
         flex: 0 0 10rem;
     }
@@ -17,7 +18,8 @@
         flex: 1;
         border: none;
         padding: calc(v.$separacion/ 4);
-         border-radius: 1rem;
+        border-radius: 1rem;
+        
 
          &:disabled{
             background-color: lighten(v.$negro, 30%);
@@ -26,3 +28,4 @@
          }
     }
 }
+
