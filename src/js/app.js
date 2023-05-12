@@ -2,6 +2,13 @@ let paso=1; //indica el paso que se quiere mostrar, en este caso el paso 1 es el
 const pasoInical = 1;
 const pasoFinal = 3;
 
+const cita = {
+    nombre: '',
+    fecha: '',
+    hora:'',
+    servicios: []
+}
+
 document.addEventListener('DOMContentLoaded', function(){
     iniciarApp();
 });
@@ -14,6 +21,8 @@ function iniciarApp(){
     paginaAnterior();//BOTON
 
     consultarAPI();  //consulta la API del backend de php
+    nombreCliente(); //añade el nombre del cliente al objeto de cita
+    seleccionarFecha();//añade la fecha en el objeto 
 }
 
 // Hace que se muestren los pasos  aqui empieza
@@ -104,10 +113,13 @@ async function consultarAPI(){
 }///Esta función hace que se ejecute y que se ejecuten otras funciones para consultas
 
 function mostrarServicios(servicios){
+    
+    
     servicios.forEach( servicio => {
-        const {id, nombre, precio} = servicio;
-
-        const nombreServicio = document.createElement(' p');
+        const {id, nombre, precio} = servicio; 
+        
+        
+        const nombreServicio = document.createElement('P');
         nombreServicio.classList.add('nombre-servicio');
         nombreServicio.textContent =nombre;
 
@@ -118,11 +130,79 @@ function mostrarServicios(servicios){
         const servicioDiv = document.createElement('DIV');
         servicioDiv.classList.add('servicio');
         servicioDiv.dataset.idServicio  = id;
+         //hace que se realicela funcion cuando se selecciona el div
+        servicioDiv.onclick = function(){
+            seleccionarServicio(servicio);
+        }
 
         servicioDiv.appendChild(nombreServicio);
         servicioDiv.appendChild(precioServicio);
 
         document.querySelector('#servicios').appendChild(servicioDiv);
-    });
+    
+    });  
 }
 
+function seleccionarServicio(servicio){
+    const {id} = servicio;
+    
+    //extrae el arrgelo de servicios 
+    const { servicios} = cita; //manda a llamar cita, ya que en el se guardan los servicios que se vayan seleccionando
+    //toma la copia de servicios y lo agrega al objeto servicio y cre un solo arreglo
+    
+    //identifica al elemento que se le da click
+    const divServicio = document.querySelector(`[data-id-servicio="${id}"]`); 
+    //comprueba si un servicio ya fue seleccionado o no
+    //se comprueba a traves de un arrayMethod
+    if(servicios.some(agregado => agregado.id === id)){ //some hace que retorne un true o false si un objeto  en caso de que exita o no en el arreglo
+        //elimminar de los disponibles
+        cita.servicios = servicios.filter(agregado => agregado.id !=id);
+        divServicio.classList.remove('seleccionado'); //elimina el somreado
+    }else{
+        //agregar servicio
+        cita.servicios = [...servicios, servicio]; //toma una copia de los servicios y agrega un servicio
+        divServicio.classList.add('seleccionado'); //se pone de color oscuro el servicio seleccionado
+    }
+    console.log(cita);
+}
+
+function nombreCliente(){
+    cita.nombre = document.querySelector('#nombre').value;
+}
+
+function seleccionarFecha(){
+    const inputFecha = document.querySelector('#fecha');
+    inputFecha.addEventListener('input', function(e){
+        
+        const dia = new Date(e.target.value).getUTCDay();
+        
+        if( [6, 0].includes(dia) ){
+            e.target.value = '';
+            mostrarAlerta('Fines de semana no permitidos', 'error');
+            
+        }else{
+            cita.fecha = e.target.value;
+            
+        } 
+    }); 
+}
+
+
+function mostrarAlerta(mensaje, tipo){
+    const alertaPrevia = document.querySelector('.alerta');
+    if(alertaPrevia)return;
+
+    const alerta = document.createElement('DIV');
+    alerta.textContent = mensaje;
+    alerta.classList.add('alerta');
+    alerta.classList.add(tipo);
+
+    const formulario = document.querySelector('#paso-2 p'); //selecciona el formulario
+    formulario.appendChild(alerta);
+
+    //tiempo que dura el mensaje en mostrarse en caso de elegir sbdo o domingo
+    setTimeout(() =>{
+        alerta.remove();
+    }, 3000);
+    
+}

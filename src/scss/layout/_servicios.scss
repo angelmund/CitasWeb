@@ -1,0 +1,50 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+ 
+.listado-servicios {
+ 
+    display: grid; //es para dispositivos grandes 
+    gap:2rem; //agrega separaci[on hacia abajo
+ 
+   
+    @include m.tablet{
+        @include m.grid(2, 2rem);
+        
+    }
+ 
+    .servicio {
+        background-color: v.$blanco;
+        background-size: 25px 50px;
+        padding: 3rem;
+        border-radius: 1rem;
+        transition-property:transform ;
+        transition-duration: 300ms ;
+        text-align: center;
+        margin: 0 20px 0 20px;
+        //Esta parte es para que cambie de color cada vez que se elija un servicio
+        &.seleccionado{
+            background-color: v.$oscuro;
+            p{
+                color: v.$blanco;
+            }
+        } //aqui termina 
+ 
+        &:hover {
+            transform: scale(1.1);
+        }
+        
+        p{
+            margin: 0 0 calc(v.$separacion / 4 ) 0 ;
+            font-weight: bold;
+            color: v.$negro;
+        }
+        
+        .precio-servicio{
+            color:v.$azul;
+            font-weight: bold;
+            font-size: 3rem;
+            margin: 0;
+        }
+        
+    }   
+}
