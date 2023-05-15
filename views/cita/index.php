@@ -33,7 +33,8 @@
                     <label for="fecha">Fecha</label>
                     <input 
                         id="fecha"
-                        type="date"  
+                        type="date" 
+                        min= "<?php echo date('Y-m-d', strtotime('+1 day') ); ?>"
                     />
                 </div>
 
@@ -47,7 +48,7 @@
             </form>
         </div>
 
-        <div id="paso-3" class="seccion">
+        <div id="paso-3" class="seccion contenido-resumen">
             <h2>Resumen</h2>
             <p class="text-center">Verifica que la informaci&oacute;n sea correcta</p>
         </div>

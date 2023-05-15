@@ -1,3 +1,5 @@
+const { resume } = require("browser-sync");
+
 let paso=1; //indica el paso que se quiere mostrar, en este caso el paso 1 es el que se muestra
 const pasoInical = 1;
 const pasoFinal = 3;
@@ -23,6 +25,9 @@ function iniciarApp(){
     consultarAPI();  //consulta la API del backend de php
     nombreCliente(); //añade el nombre del cliente al objeto de cita
     seleccionarFecha();//añade la fecha en el objeto 
+    seleccionarHora(); //añade la hora de la cita en el objeto
+
+    mostrarResumen(); //muestra los servicios, fecha y hora seleccinados por el usuario
 }
 
 // Hace que se muestren los pasos  aqui empieza
@@ -55,8 +60,11 @@ function tabs(){
     const botones = document.querySelectorAll('.tabs button');
     botones.forEach( boton =>{
         boton.addEventListener('click', function(e){
+            e.preventDefault();
+
             paso = parseInt(e.target.dataset.paso); //identifica en que paso est[a]
             mostrarSeccion();
+            
             botonesPaginador(); //funcion para que se ocultem los botones cada vez que se de click en un paso
         });
     })
@@ -73,6 +81,8 @@ function botonesPaginador(){
     }else if(paso == 3 ) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');
+
+        mostrarResumen();
     }else {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.remove('ocultar');
@@ -178,7 +188,7 @@ function seleccionarFecha(){
         
         if( [6, 0].includes(dia) ){
             e.target.value = '';
-            mostrarAlerta('Fines de semana no permitidos', 'error');
+            mostrarAlerta('Fines de semana no permitidos', 'error', '.formulario');
             
         }else{
             cita.fecha = e.target.value;
@@ -187,22 +197,71 @@ function seleccionarFecha(){
     }); 
 }
 
+function seleccionarHora(){
+    const inputHora = document.querySelector('#hora');
+    inputHora.addEventListener('input', function(e){
+        console.log(e.target.value);
 
-function mostrarAlerta(mensaje, tipo){
+        const horaCita = e.target.value;
+        const hora = horaCita.split(":")[0];  //sirve para separar una cadena split()
+        if(hora <10 || hora >18){
+            e.target.value = ''; //evita que se muestre la hora que no es v[a]lida
+            mostrarAlerta('Hora no Valida', 'error', '.formulario');
+        }else{
+            cita.hora = e.target.value;
+
+            console.log(cita);
+        }
+    })
+}
+
+
+
+//muestra el mensaje de error en caso de elegir un fin de semana 
+function mostrarAlerta(mensaje, tipo, elemento, desaparece = true){
+   //previene que se genere m[as] de una alerta 
     const alertaPrevia = document.querySelector('.alerta');
-    if(alertaPrevia)return;
+    if(alertaPrevia){
+        alertaPrevia.remove();
+    }
 
+    //scriptin para crear la alerta
     const alerta = document.createElement('DIV');
     alerta.textContent = mensaje;
     alerta.classList.add('alerta');
     alerta.classList.add(tipo);
 
-    const formulario = document.querySelector('#paso-2 p'); //selecciona el formulario
-    formulario.appendChild(alerta);
+    const referencia = document.querySelector(elemento); //muestra el mensaje en la parte de abajo 
+    referencia.appendChild(alerta);
 
+    if(desaparece){
+        
     //tiempo que dura el mensaje en mostrarse en caso de elegir sbdo o domingo
-    setTimeout(() =>{
-        alerta.remove();
-    }, 3000);
-    
+        setTimeout(() =>{
+            alerta.remove();
+        }, 3000); //eleimina la alerta 
+    }
+
+
+}
+
+function mostrarResumen(){
+    const resumen = document.querySelector('.contenido-resumen');
+
+    //limpia el [a]rea de mostrar resumen para mostrar los servicios y fechas seleccionadas
+   // Limpiar el Contenido de Resumen
+
+    while(resumen.firstChild) {
+
+        resumen.removeChild(resumen.firstChild);
+        
+        }
+
+    //cita.servicios.length verifica si el string esta vacio
+    if(Object.values(cita).includes('') || cita.servicios.length ===0){ //Object verifica si hay un string vacio
+        //si alguno de los campos es vacio
+        mostrarAlerta('Faltan datos de Servicios, Fecha u Hora','error', '.contenido-resumen', false);
+    }else{
+        console.log('DATOS CORRECTOS');
+    }
 }
