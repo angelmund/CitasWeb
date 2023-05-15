@@ -260,7 +260,7 @@ function mostrarResumen(){
     //cita.servicios.length verifica si el string esta vacio
     if(Object.values(cita).includes('') || cita.servicios.length ===0){ //Object verifica si hay un string vacio
         //si alguno de los campos es vacio
-        mostrarAlerta('Faltan datos de Servicios, Fecha u Hora','error', '.contenido-resumen', false);
+        mostrarAlerta('Faltan datos de sServicios, Fecha u Hora','error', '.contenido-resumen', false);
     }else{
         console.log('DATOS CORRECTOS');
     }
