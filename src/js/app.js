@@ -23,6 +23,7 @@ function iniciarApp(){
     paginaAnterior();//BOTON
 
     consultarAPI();  //consulta la API del backend de php
+
     nombreCliente(); //añade el nombre del cliente al objeto de cita
     seleccionarFecha();//añade la fecha en el objeto 
     seleccionarHora(); //añade la hora de la cita en el objeto
@@ -75,10 +76,10 @@ function botonesPaginador(){
     const paginaAnterior = document.querySelector('#anterior');
     const paginaSiguiente = document.querySelector('#siguiente');
     //si estamos en el paso num 1
-    if(paso==1){
+    if(paso===1){
         paginaAnterior.classList.add ('ocultar');
         //paginaSiguiente.classList.add ('ocultar');
-    }else if(paso == 3 ) {
+    }else if(paso === 3 ) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');
 
@@ -258,7 +259,7 @@ function mostrarResumen(){
         }
 
     //cita.servicios.length verifica si el string esta vacio
-    if(Object.values(cita).includes('') || cita.servicios.length ==0){ //Object verifica si hay un string vacio
+    if(Object.values(cita).includes('') || cita.servicios.length ===0){ //Object verifica si hay un string vacio
         //si alguno de los campos es vacio
         mostrarAlerta('Faltan datos de Servicios, Fecha u Hora','error', '.contenido-resumen', false);
     }else{
