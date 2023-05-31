@@ -32,6 +32,17 @@ function iniciarApp(){
     mostrarResumen(); //muestra los servicios, fecha y hora seleccinados por el usuario
 }
 
+//muestra un mensaje en la conexi[on] de base de datos 
+function conexionBD(){
+
+
+    const mostrarAlerta = document.querySelector('#error-container');
+     //scriptin para crear la alerta
+     mostrarAlerta('No hay conexion a la base de datos', 'error', '/');
+ 
+}
+
+
 // Hace que se muestren los pasos  aqui empieza
 //hace que se muestre una seccion al dar click en el buttton
 function mostrarSeccion(){
